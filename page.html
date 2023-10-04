@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Random French Word Generator</title>
+  <style>
+    @keyframes moveBackground {
+      0% {
+        background-position: 0 0;
+      }
+      100% {
+        background-position: 100000px 100000px;
+      }
+    }
+    body {
+      background-image: url('https://www.egora.fr/sites/egora.fr/files/visuels_actus/macron_3.png'); /* Replace with your image URL */
+      background-repeat: repeat;
+      animation: moveBackground 1000s linear infinite;
+      /* Center content vertically and horizontally */
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    /* Style for the random word */
+    #randomWord {
+      font-size: 96px; /* Massive font size */
+      font-family: 'Comic Sans MS'; /* Comic Sans */
+    }
+    /* Style for the image */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+
+
+  <!-- Display area for the random word -->
+  <p id="randomWord"></p>
+
+  <!-- Button to trigger the random word generation -->
+  <button onclick="generateRandomWord()">bouton</button>
+
+  <script>
+    // Array of example French words ending with "ion"
+    const words = ['Collection',
+ 'Application',
+ 'Interpellation',
+ 'Fusion',
+ 'Diversion',
+ 'Intimidation',
+ 'Évaporation',
+ 'Connotation',
+ 'Affection',
+ 'Répudiation',
+ 'Obligation',
+ 'Consécration',
+ 'Représentation',
+ 'Compensation',
+ 'Génération',
+ 'Discussion',
+ 'Pollution',
+ 'Interaction',
+ 'Rétribution',
+ 'Répression',
+ 'Rectification',
+ 'Procrastination',
+ 'Incitation',
+ 'Inhibition',
+ 'Gestion',
+ 'Intention',
+ 'Réprimande',
+ 'Séparation',
+ 'Affiliation',
+ 'Justification',
+ 'Contribution',
+ 'Imposition',
+ 'Frustration',
+ 'Consommation',
+ 'Réaction',
+ 'Répartition',
+ 'Corruption',
+ 'Passion',
+ 'Dimension',
+ 'Identification',
+ 'Association',
+ 'Aspiration',
+ 'Fonction',
+ 'Prohibition',
+ 'Évocation',
+ 'Observation',
+ 'Direction',
+ 'Admiration',
+ 'Réconciliation',
+ 'Option',
+ 'Réanimation',
+ 'Relation',
+ 'Compétition',
+ 'Inclination',
+ 'Conjecture',
+ 'Concentration',
+ 'Condition',
+ 'Distribution',
+ 'Permission',
+ 'Explication',
+ 'Citation',
+ 'Limitation',
+ 'Soumission',
+ 'Réduction',
+ 'Réflexion',
+ 'Convoitise',
+ 'Contraction',
+ 'Conservation',
+ 'Subvention',
+ 'Commotion',
+ 'Décision',
+ 'Pension',
+ 'Conclusion',
+ 'Extension',
+ 'Animation',
+ 'Réorientation',
+ 'Version',
+ 'Exclamation',
+ 'Résonance',
+ 'Interprétation',
+ 'Notion',
+ 'Relégation',
+ 'Déduction',
+ 'Rédemption',
+ 'Position',
+ 'Acquisition',
+ 'Transformation',
+ 'Incrustation',
+ 'Législation',
+ 'Satisfaction',
+ 'Communication',
+ 'Révolution',
+ 'Équation',
+ 'Exploration',
+ 'Anticipation',
+ 'Persuasion',
+ 'Situation',
+ 'Destruction',
+ 'Tentation',
+ 'Délibération',
+ 'Préservation',
+ 'Tradition',
+ 'Correction',
+ 'Navigation',
+ 'Déflation',
+ 'Régression',
+ 'Délégation',
+ 'Considération',
+ 'Évasion',
+ 'Activation',
+ 'Introduction',
+ 'Violation',
+ 'Information',
+ 'Incantation',
+ 'Construction',
+ 'Illusion',
+ 'Nation',
+ 'Révision',
+ 'Réparation',
+ 'Énumération',
+ 'Session',
+ 'Intuition',
+ 'Confirmation',
+ 'Ambition',
+ 'Imagination',
+ 'Infiltration',
+ 'Élaboration',
+ 'Organisation',
+ 'Conviction',
+ 'Éradication',
+ 'Interrogation',
+ 'Suppression',
+ 'Réception',
+ 'Valorisation',
+ 'Inscription',
+ 'Révocation',
+ 'Expression',
+ 'Décoration',
+ 'Protection',
+ 'Adoption',
+ 'Sublimation',
+ 'Adoration',
+ 'Confrontation',
+ 'Appropriation',
+ 'Réquisition',
+ 'Évaluation',
+ 'Médiatisation',
+ 'Isolation',
+ 'Station',
+ 'Réclamation',
+ 'Résolution',
+ 'Contemplation',
+ 'Inspiration',
+ 'Proposition',
+ 'Élection',
+ 'Attribution',
+ 'Rétraction',
+ 'Révélation',
+ 'Fascination',
+ 'Solution',
+ 'Interjection',
+ 'Exhumation',
+ 'Innovation',
+ 'Émission',
+ 'Réalisation',
+ 'Configuration',
+ 'Méditation',
+ 'Définition',
+ 'Consternation',
+ 'Collaboration',
+ 'Conception',
+ 'Vibration',
+ 'Classification',
+ 'Assimilation',
+ 'Mention',
+ 'Insinuation',
+ 'Région',
+ 'Installation',
+ 'Consultation',
+ 'Amélioration',
+ 'Récupération',
+ 'Motivation',
+ 'Invitation',
+ 'Attraction',
+ 'Commission',
+ 'Subordination',
+ 'Mission',
+ 'Addition',
+ 'Érosion',
+ 'Proclamation',
+ 'Action',
+ 'Invention',
+ 'Inondation',
+ 'Coordination',
+ 'Compatibilité',
+ 'Réhabilitation',
+ 'Inflation',
+ 'Perception',
+ 'Occupation',
+ 'Abstraction',
+ 'Exacerbation',
+ 'Question',
+ 'Abolition',
+ 'Impression',
+ 'Élimination',
+ 'Attention',
+ 'Évacuation',
+ 'Exécution',
+ 'Intégration',
+ 'Variation',
+ 'Répétition',
+ 'Transition',
+ 'Opération',
+ 'Exposition',
+ 'Confusion',
+ 'Exploitation',
+ 'Réactivation',
+ 'Allégation',
+ 'Éducation',
+ 'Proportion',
+ 'Convocation',
+ 'Simulation',
+ 'Rétention',
+ 'Récréation',
+ 'Émotion',
+ 'Création',
+ 'Détention',
+ 'Illustration',
+ 'Préparation',
+ 'Précision',
+ 'Exclusion',
+ 'Expérimentation',
+ 'Formation',
+ 'Célébration',
+ 'Vision']
+    // Function to generate and display a random word
+    function generateRandomWord() {
+      const randomIndex = Math.floor(Math.random() * words.length);
+      const randomWord = "Macron " + words[randomIndex];
+      document.getElementById('randomWord').innerText = randomWord;
+
+      // Use speech synthesis to say the word
+      const utterance = new SpeechSynthesisUtterance(randomWord);
+      utterance.lang = 'fr-FR';  // Set language to French
+      window.speechSynthesis.speak(utterance);
+    }
+  </script>
+
+</body>
+</html>
